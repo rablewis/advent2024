@@ -850,23 +850,38 @@ input = '''194558: 2 6 664 40 874 40 7
 215952960: 565 796 6 972 80
 '''
 
-def op(l, r, n):
-    if n == 0:
-        return l+r
-    elif n == 1:
-        return l*r
+def op(l, r, n, type):
+    if type == 0:
+        return op_number(l, r, n)
     else:
-        raise Exception('invalid operator number')
+        return op_string(l, r, n)
 
-def update_flags(flags):
-    i = len(flags) - 1
+def op_number(l, r, n):
+    if n == 0: # add
+        return l + int(r), 0
+    elif n == 1: # multiply
+        return l * int(r), 0
+    else: # concatenate
+        return str(l) + r, 1
+
+def op_string(l, r, n):
+    if n == 0: # add
+        return int(l) + int(r), 0
+    elif n == 1: # multiply
+        return int(l) * int(r), 0
+    else: # concatenate
+        return l + r, 1
+
+
+def update_ops(ops):
+    i = len(ops) - 1
     while i >= 0:
-        if flags[i] == 1:
-            flags[i] = 0
+        if ops[i] == 2:
+            ops[i] = 0
             i = i - 1
         else:
-            flags[i] = flags[i] + 1
-            return flags
+            ops[i] = ops[i] + 1
+            return ops
     
     return None
 
@@ -879,22 +894,24 @@ for line in input.split('\n'):
     colon_index = line.index(':')
     test_value = int(line[:colon_index])
 
-    
-    numbers = [int(s) for s in line[colon_index + 2:].split((' '))]
+    elements = line[colon_index + 2:].split((' '))
 
-    ops = [0 for i in numbers[:-1]]
+    ops = [0 for i in elements[:-1]]
     
     while ops != None:
-        answer = numbers[0]
+        answer = elements[0]
+        type = 1  # string
         for i in range(len(ops)):
-            answer = op(answer, numbers[i+1], ops[i])
-        
+            answer, type = op(answer, elements[i+1], ops[i], type)
+        answer = int(answer)
         if answer == test_value:
             possible_sum = possible_sum + test_value
             print(test_value)
-            print(numbers)
+            print(elements)
             print(ops)
+            found_answer = True
             break
-        ops = update_flags(ops)
+        ops = update_ops(ops)
+
 
 print(possible_sum)
