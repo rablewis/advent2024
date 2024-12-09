@@ -140,6 +140,7 @@ example_input = '''....#.....
 #.........
 ......#...'''
 
+
 def build_map(input):
     map = []
     guard_position = (-1, -1)
@@ -166,69 +167,100 @@ def build_map(input):
 # 1 = EAST (1, 0)
 # 2 = SOUTH (0, 1)
 # 3 = WEST (-1, 0)
-def move(guard_position, guard_direction, map, guard_path):
+def move(guard_position, guard_direction, map, turns, loop_locations, trial_branch=False):
     if guard_direction == 0:  # north
-        return move_north(guard_position, map, guard_path)
+        return move_north(guard_position, map, turns, loop_locations, trial_branch)
     elif guard_direction == 1:  # east
-        return move_east(guard_position, map, guard_path)
+        return move_east(guard_position, map, turns, loop_locations, trial_branch)
     elif guard_direction == 2:  # south
-        return move_south(guard_position, map, guard_path)
+        return move_south(guard_position, map, turns, loop_locations, trial_branch)
     else:  # west
-        return move_west(guard_position, map, guard_path)
+        return move_west(guard_position, map, turns, loop_locations, trial_branch)
     
-def move_north(guard_position, map, guard_path):
+def next_position(position, direction):
+    if direction == 0:
+        return (position[0] + 0, position[1] - 1)
+    elif direction == 1:
+        return (position[0] + 1, position[1] + 0)
+    elif direction == 2:
+        return (position[0] + 0, position[1] + 1)
+    else:
+        return (position[0] - 1, position[1] + 0)
+    
+    
+def move_north(guard_position, map, turns, loop_locations, trial_branch):
     x, cury = guard_position
     nexty = cury - 1
     while nexty >= 0:
         if map[nexty][x] == 1:
-            return (x, cury), guard_path
+            return (x, cury)
         else:
+            if not trial_branch:
+                test_for_loop((x, cury), 0, map, turns, loop_locations)
             cury = nexty
             nexty = cury - 1
-            guard_path[cury][x] = 1
 
-    return None, guard_path
-
-def move_east(guard_position, map, guard_path):
+    return None
+def move_east(guard_position, map, turns, loop_locations, trial_branch):
     curx, y = guard_position
     nextx = curx + 1
     width = len(map[0])
     while nextx < width:
         if map[y][nextx] == 1:
-            return (curx, y), guard_path
+            return (curx, y)
         else:
+            if not trial_branch:
+                test_for_loop((curx, y), 1, map, turns, loop_locations)
             curx = nextx
             nextx = curx + 1
-            guard_path[y][curx] = 1
 
-    return None, guard_path
+    return None
 
-def move_south(guard_position, map, guard_path):
+def move_south(guard_position, map, turns, loop_locations, trial_branch):
     x, cury = guard_position
     nexty = cury + 1
     height = len(map)
     while nexty < height:
         if map[nexty][x] == 1:
-            return (x, cury), guard_path
+            return (x, cury)
         else:
+            if not trial_branch:
+                test_for_loop((x, cury), 2, map, turns, loop_locations)
             cury = nexty
             nexty = cury + 1
-            guard_path[cury][x] = 1
 
-    return None, guard_path
+    return None
 
-def move_west(guard_position, map, guard_path):
+def move_west(guard_position, map, turns, loop_locations, trial_branch):
     curx, y = guard_position
     nextx = curx - 1
     while nextx >= 0:
         if map[y][nextx] == 1:
-            return (curx, y), guard_path
+            return (curx, y)
         else:
+            if not trial_branch:
+                test_for_loop((curx, y), 3, map, turns, loop_locations)
             curx = nextx
             nextx = curx - 1
-            guard_path[y][curx] = 1
 
-    return None, guard_path
+    return None
+
+def test_for_loop(position, direction, map, turns, loop_locations):
+    obstacle_location = next_position(position, direction)
+    if obstacle_location in loop_locations:
+        return
+    trial_map = map.copy()
+    trial_map[obstacle_location[1]][obstacle_location[0]] = 1
+    trial_turns = []
+    trial_turns.append((position, direction))
+    direction = (direction + 1) % 4
+    position = run_to_end(position, direction, trial_map, trial_turns, True)
+    if position == None:
+        # moved off the edge
+        pass
+    else:
+        loop_locations.append(obstacle_location)
+
 
 def count_guard_path_positions(guard_path):
     count = 0
@@ -237,19 +269,36 @@ def count_guard_path_positions(guard_path):
             count += row[i]
     return count
 
-map, guard_position = build_map(input)
-guard_path = []
-for row in map:
-    guard_path.append([0 for i in row])
+def run_to_end(guard_position, guard_direction, map, turns, trial_branch):
+    loop_locations = []
+    while guard_position != None:
+        guard_position = move(guard_position, guard_direction, map, turns, loop_locations, trial_branch)
+        if guard_position != None:
+            if (guard_position, guard_direction) in turns:
+                # found a loop
+                break
+            turns.append((guard_position, guard_direction))
+        guard_direction = (guard_direction + 1) % 4
 
+    return guard_position
+
+
+
+map, guard_position = build_map(input)
 guard_direction = 0
 
+turns = []
+loop_locations = []
 
-x, y = guard_position
-guard_path[y][x] = 1
 while guard_position != None:
-    guard_position, guard_path = move(guard_position, guard_direction, map, guard_path)
+    guard_position = move(guard_position, guard_direction, map, turns, loop_locations)
+    if guard_position != None:
+        if (guard_position, guard_direction) in turns:
+            break
+        turns.append((guard_position, guard_direction))
     guard_direction = (guard_direction + 1) % 4
 
-answer = count_guard_path_positions(guard_path)
-print(answer)
+
+print(len(loop_locations))
+
+# part 1 answer = 4758
