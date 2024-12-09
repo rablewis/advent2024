@@ -83,11 +83,23 @@ def load_antenna_map(input):
     return frequencies, antennas, map_height, map_width
 
 
-def find_antinodes(pair):
-    first = find_antinode(pair[0], pair[1])
-    second = find_antinode(pair[1], pair[0])
-    return [first, second]
+def find_antinodes(pair, map_width, map_height):
+    antinodes = []
+    vx, vy = vector(pair)
+    antinode = pair[0]
+    while is_within_map(antinode, map_width, map_height):
+        antinodes.append(antinode)
+        antinode = (antinode[0] - vx, antinode[1] - vy)
+    antinode = pair[1]
+    while is_within_map(antinode, map_width, map_height):
+        antinodes.append(antinode)
+        antinode = (antinode[0] + vx, antinode[1] + vy)
+    
+    return antinodes
 
+
+def vector(pair):
+    return (pair[1][0] - pair[0][0], pair[1][1] - pair[0][1])
 
 def find_antinode(first_location, second_location):
     x = 2 * first_location[0] - second_location[0]
@@ -110,9 +122,9 @@ for frequency in frequencies:
         for j in range(i + 1, len(antenna_locations)):
             antenna_pairs.append((antenna_locations[i], antenna_locations[j]))
     for pair in antenna_pairs:
-        new_antinodes = find_antinodes(pair)
+        new_antinodes = find_antinodes(pair, map_width, map_height)
         for antinode_location in new_antinodes:
-            if is_within_map(antinode_location, map_width, map_height) and antinode_location not in antinode_locations:
+            if not antinode_location in antinode_locations:
                 antinode_locations.append(antinode_location)
 
 print(len(antinode_locations))
