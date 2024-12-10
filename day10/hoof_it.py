@@ -80,7 +80,7 @@ def build_trails(map):
 
     starts = find_starts(map)
     for start in starts:
-        current[start] = {start}
+        current[start] = 1
 
     for n in range(1, 10):
         next = dict()
@@ -88,19 +88,12 @@ def build_trails(map):
             neighbours = find_neighbours(map, pos, n)
             for neighbour in neighbours:
                 if neighbour not in next.keys():
-                    next[neighbour] = set()
-                next[neighbour] = next[neighbour] | current[pos]
+                    next[neighbour] = 0
+                next[neighbour] = next[neighbour] + current[pos]
         
         current = next
 
-    trails = dict()
-    for peak in current.keys():
-        for trailhead in current[peak]:
-            if trailhead not in trails.keys():
-                trails[trailhead] = []
-            trails[trailhead].append(peak)
-
-    return trails
+    return current
     
 
 def find_starts(map):
@@ -141,14 +134,11 @@ def find_neighbours(map, pos, n):
     return neighbours
 
 
-map = build_map(input)
+map = build_map(example_input)
 trails = build_trails(map)
 
 score = 0
-for trailhead in trails.keys():
-    score += len(trails[trailhead])
+for peak in trails.keys():
+    score += trails[peak]
 
 print(score)
-
-
-# expected answer = 36 for example input (9 trailheads with 5,6,5,3,1,3,5,3,5 peaks reachable respectively)
