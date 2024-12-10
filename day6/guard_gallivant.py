@@ -140,6 +140,17 @@ example_input = '''....#.....
 #.........
 ......#...'''
 
+test_input = '''##########
+.........#
+..........
+..........
+..........
+..........
+....^.....
+..........
+..........
+##########'''
+
 
 def build_map(input):
     map = []
@@ -283,21 +294,87 @@ def run_to_end(guard_position, guard_direction, map, turns, trial_branch):
     return guard_position
 
 
+def makes_loop(map, travel, obstacle):
+    # note: should check validity of obstacle position before calling this function
+    map[obstacle[1]][obstacle[0]] = 1
+    result = is_loop(map, travel)
+    map[obstacle[1]][obstacle[0]] = 0
+    return result
+
+
+def is_loop(map, travel):
+    turns = []
+    while True:
+        # print(travel)
+        next = next_travel_position(travel)
+        if is_off_map(map, next):
+            # print('off map')
+            return False
+        elif is_obstacle(map, next):
+            # print('obstacle')
+            if travel in turns:
+                return True
+            else:
+                # print('new turn')
+                turns.append(travel)
+                travel = turn(travel)
+        else:
+            travel = step(travel)
+    
+
+def is_obstacle(map, pos):
+    return map[pos[1]][pos[0]] == 1
+
+
+def is_off_map(map, pos):
+    return pos[0] < 0 or pos[1] < 0 or pos[0] >= len(map[0]) or pos[1] >= len(map)
+
+
+def turn(travel):
+    return travel[0], travel[1], (travel[2] + 1) % 4
+
+
+def step(travel):
+    dir = travel[2]
+    if dir == 0:
+        return travel[0], travel[1] - 1, dir
+    elif dir == 1:
+        return travel[0] + 1, travel[1], dir
+    elif dir == 2:
+        return travel[0], travel[1] + 1, dir
+    else:
+        return travel[0] - 1, travel[1], dir
+    
+
+def next_travel_position(travel):
+    t = step(travel)
+    return (t[0], t[1])
+
 
 map, guard_position = build_map(input)
 guard_direction = 0
 
-turns = []
 loop_locations = []
 
-while guard_position != None:
-    guard_position = move(guard_position, guard_direction, map, turns, loop_locations)
-    if guard_position != None:
-        if (guard_position, guard_direction) in turns:
-            break
-        turns.append((guard_position, guard_direction))
-    guard_direction = (guard_direction + 1) % 4
+travel = guard_position[0], guard_position[1], guard_direction
+for y in range(len(map)):
+    for x in range(len(map[0])):
+        pos = (x, y)
+        # print(pos)
+        if is_obstacle(map, pos):
+            # print('already obstacle')
+            continue
 
+        if pos in loop_locations:
+            # print('already added')
+            continue
+
+        if guard_position == pos:
+            # print('guard position')
+            continue
+
+        if makes_loop(map, travel, pos):
+            loop_locations.append(pos)
 
 print(len(loop_locations))
 
