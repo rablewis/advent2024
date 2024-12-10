@@ -4,35 +4,59 @@ input = '74877028998053569175335684646763881396463754286729631661791950685981512
 
 example_input = '2333133121414131402'
 
+test_input = '74877028998053569175335'
+
 def parse_filesystem_shorthand(input):
     filesystem = []
+    file_blocks = []
+    free_spans = []
     filenumber = 0
+    x = 0
     is_file = True
 
     for s in input:
         n = int(s)
         if is_file:
+            file_blocks.append((x, n))
+            x += n
             for _ in range(n):
                 filesystem.append(filenumber)
             filenumber += 1
         else:
+            free_spans.append((x, n))
+            x += n
             for _ in range(n):
                 filesystem.append(None)
         
         is_file = not is_file
 
-    return filesystem
+    return filesystem, free_spans, file_blocks
 
 
-def compact_filesystem(filesystem):
-    free = first_free_block(filesystem)
-    last = last_file_block(filesystem)
-    while free < last:
-        filesystem = move_block(filesystem, free, last)
-        free = first_free_block(filesystem)
-        last = last_file_block(filesystem)
+def compact_filesystem(free_spans, file_blocks):
+    # free_spans is a list of (start,size) pairs
+    # file_blocks is a list of (start,size) pairs, indexed by filenumber
+    new_file_blocks = file_blocks.copy()
+    for i in range(len(file_blocks) - 1, 0, -1):
+        file_block = file_blocks[i]
+        file_position = file_block[0]
+        if file_position < free_spans[0][0]:
+            break
 
-    return filesystem
+        file_size = file_block[1]
+        for j in range(len(free_spans)):
+            free_span = free_spans[j]
+            if free_span[0] > file_position:
+                break
+            if free_span[1] >= file_size:
+                new_file_blocks[i] = (free_span[0], file_size)
+                free_spans.remove(free_span)
+                if free_span[1] > file_size:
+                    free_spans.insert(j, (free_span[0] + file_size, free_span[1] - file_size))
+                    
+                break
+    
+    return new_file_blocks
 
 
 def first_free_block(filesystem):
@@ -58,7 +82,42 @@ def move_block(filesystem, free, last):
     return filesystem
 
 
-def calculate_checksum(filesystem):
+def calculate_checksum(file_blocks):
+    checksum = 0
+    for i in range(len(file_blocks)):
+        for j in range(file_blocks[i][0], file_blocks[i][0] + file_blocks[i][1]):
+            checksum += i * j
+    
+    return checksum
+
+
+def filesystem_from_file_blocks(file_blocks):
+    filesystem = []
+    pos = 0
+    
+    file_descriptors = file_descriptors_from_file_blocks(file_blocks)
+
+    for i in range(len(file_descriptors)):
+        file_descriptor = file_descriptors[i]
+        for _ in range(file_descriptor[1] - pos):
+            filesystem.append(None)
+        for _ in range(file_descriptor[2]):
+            filesystem.append(file_descriptor[0])
+        pos = file_descriptor[1] + file_descriptor[2]
+
+    return filesystem
+
+
+def file_descriptors_from_file_blocks(file_blocks):
+        file_descriptors = []
+        for i in range(len(file_blocks)):
+            file_descriptors.append((i, file_blocks[i][0], file_blocks[i][1]))
+        file_descriptors.sort(key=lambda f: f[1])
+
+        return file_descriptors
+
+
+def calculate_filesystem_checksum(filesystem):
     checksum = 0
     for i in range(len(filesystem)):
         filenumber = filesystem[i]
@@ -68,9 +127,9 @@ def calculate_checksum(filesystem):
     return checksum
 
 
-filesystem = parse_filesystem_shorthand(input)
+filesystem, free_spans, file_blocks = parse_filesystem_shorthand(input)
 
-filesystem = compact_filesystem(filesystem)
+file_blocks = compact_filesystem(free_spans, file_blocks)
 
-checksum = calculate_checksum(filesystem)
+checksum = calculate_checksum(file_blocks)
 print(checksum)
