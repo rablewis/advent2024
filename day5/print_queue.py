@@ -1431,6 +1431,37 @@ def is_topological_sorting(outgoing, sorting):
     return True
 
 
+def sort(outgoing, incoming, nodes):
+    # sort using Kahn's algorithm (https://en.wikipedia.org/wiki/Topological_sorting)
+    # L ← Empty list that will contain the sorted elements
+    sorted = []
+    # S ← Set of all nodes with no incoming edge
+    start_nodes = [node for node in nodes if node not in incoming.keys()]
+
+    # while S is not empty do
+    while len(start_nodes) > 0:
+    #     remove a node n from S
+        node = start_nodes.pop()
+    #     add n to L
+        sorted.append(node)
+    #     for each node m with an edge e from n to m do
+        if node in outgoing.keys():
+            outs = outgoing[node]
+            del outgoing[node]
+            for out in outs:
+    #         remove edge e from the graph
+                incoming[out] = incoming[out] - {node}
+                if len(incoming[out]) == 0:
+                    del incoming[out]
+    #         if m has no other incoming edges then
+                if out not in incoming.keys():
+    #             insert m into S
+                    start_nodes.append(out)
+
+    #     return L   (a topologically sorted order)
+    return sorted
+     
+
 def middle_value(list):
     if len(list) % 2 == 0:
         raise Exception('invalid list length')
@@ -1438,19 +1469,18 @@ def middle_value(list):
     return list[(len(list) - 1) // 2]
 
 
-# NOTE In part 1, printing pages in the right order is equivalent to doing a topological sort on the nodes of a DAG.
+# NOTE: printing pages in the right order is equivalent to doing a topological sort on the nodes of a DAG.
 # The code is written in terms of a DAG, rather than printing rules.
+# For part 2, the pages are put into topological order using Kahn's algorithm.
 
 edges, sortings = parse_input(input)
 
-correctly_sorted = []
+score = 0
 for sorting in sortings:
     outgoing, incoming = edge_collections(edges, sorting)
-    if is_topological_sorting(outgoing, sorting):
-        correctly_sorted.append(sorting)
-
-score = 0
-for sorting in correctly_sorted:
-    score += middle_value(sorting)
+    if not is_topological_sorting(outgoing, sorting):
+        sorted = sort(outgoing, incoming, sorting)
+        score += middle_value(sorted)
 
 print(score)
+example_input
