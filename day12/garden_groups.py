@@ -152,8 +152,7 @@ MIIIIIJJEE
 MIIISIJEEE
 MMMISSJEEE'''
 
-test_input = '''AAABBBCD
-DBBBCCCA'''
+test_input = '''AAABB'''
 
 
 
@@ -219,15 +218,63 @@ def are_adjacent(left, right):
 
 def region_cost(region):
     # TASK 1
-    return perimeter(region) * len(region)
+    # return perimeter(region) * len(region)
 
     # TASK 2
-    # return number_of_sides(region) * len(region)
+    return number_of_sides(region) * len(region)
 
 
 def number_of_sides(region):
-     # obviously wrong
-     return 0
+     # make a list of edges
+     #    expressed as aspect (n,e,s,w) and cell
+
+    count = 0
+    for aspect in range(4):
+        edges = []
+        for plot in region:
+            if not has_neighbour(plot, region, aspect):
+                edges.append(plot)
+        
+        # traverse all cells to group edges into sides
+        #    if two edges have the same aspect and are on cells that are adjacent 
+        #    in the correct direction (NS or EW) for the aspect, they are part of the same edge.
+        #
+        #    similar to the grouping into regions, if an edge is part of two sides, those sides can be joined
+
+        sides = []
+        adjacent_left = (aspect - 1) % 4
+        adjacent_right = (aspect + 1) % 4
+        for edge in edges:
+            adjacent_sides = []
+            for side in sides:
+                if has_neighbour(edge, side, adjacent_left):
+                    adjacent_sides.append(side)
+                    break
+            for side in sides:
+                if has_neighbour(edge, side, adjacent_right):
+                    adjacent_sides.append(side)
+                    break
+            
+            if len(adjacent_sides) == 0:
+                new_side = [edge]
+                sides.append(new_side)
+            elif len(adjacent_sides) == 1:
+                adjacent_sides[0].append(edge)
+            else:
+                # merge sides
+                primary_side = adjacent_sides[0]
+                secondary_side = adjacent_sides[1]
+                for edge_plot in secondary_side:
+                    primary_side.append(edge_plot)
+
+                sides.remove(secondary_side)
+
+                primary_side.append(edge)
+        
+        count += len(sides)
+
+    return count
+
 
 def perimeter(region):
     p = 0
@@ -290,3 +337,4 @@ for plant in regions:
 print(cost)
 
 # The answer for part 1 is 1930 for the example_input
+# The answer for part 2 is 1206 for the example_input
