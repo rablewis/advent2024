@@ -218,8 +218,16 @@ def are_adjacent(left, right):
 
 
 def region_cost(region):
+    # TASK 1
     return perimeter(region) * len(region)
 
+    # TASK 2
+    # return number_of_sides(region) * len(region)
+
+
+def number_of_sides(region):
+     # obviously wrong
+     return 0
 
 def perimeter(region):
     p = 0
