@@ -7,14 +7,14 @@ input = '''<;'mul(234,359)who()-who():where()}%what()(when()mul(260,344)}[$*{&fr
 &*don't()]select()from()where()[mulwhen()^^/from()&mul(461,659)&mul(643[mul(572,503)mul(588,137){;mul(849,301)who()how()%;why()who()mul(233,687) why()*do()+who(),#how()( -mul(650,3)^+mul(14,551)who()^#? !<from()]mul(912,640)!?where()*%mul(328,45)/how();;where()(mul(843,155)who()what())?%what()what()@mul(923,667)) @how())+who()-mul(503,43)when(530,489)why()from()&select(617,173)what()mul(471,175>~>-mul(628,710)%;why()<('$&:when()mul;why(155,340):^+where()/[%@mul(931,55)%(~:why()from()mul(715,482)!{mul(766,239)how()mul(284,603)>where(897,837)mul(530,610),;-why()<select()/]!mul(389,108)'[~#mul(230,503)^)%~^how()^(&mul(216,268):mul(190,552$</who()!select()]do()}what()mul(144,685)%(don't()/[where(),>^}select()(mul(470,194)from()*,who()!mul(394,768):from()?{$ ;@~mul(571,519) what()[:mul(65,328)where()>~where()< :#mul(490,774)'why()>,@<mul(945,164)?,select()from()]mul(191,618);') #mul(984,94)^^mul(764,343)[!~?%why()-select()mul(802,97)#why()when()~,<?mul(817,989)![>mul(588who()}!-'mul(35,602)+ -%[' how()]:mul(502,722):why()!!mul(332,723)!{ ,[}{^who()don't()&@[when()>'mul(695,738)select()how()do()what(635,547)};>mul(50,148),,,mul(974,330)mul(973,477)+>mul/<how()why()])[+where()mul(727,316)&}#*];(~+do()>when()mul(74,42),how()who():,what(182,526)>mul(301,319)from()*how()#mul(808,632)don't()%- ~mul(671,835)who()}&mul(330,88)){+when()&who()<$who()where()mul(653,324))(select(){/!*select())<mul(933,167)/::?+~*how()mul(266,2):**!)what()mul(491,655)}?mul(949,984)~(,who()%mul(254,681)who()%from()-;from()?%{)do() [{mul(570,36)):^;{-who()<mul(820,352)/,>select()mul(800,74)mul(780>~where()[)/why():+mul(95,301)+#~-]^<  mul(453,169))!)-who()}select()!/+mul(514,816)'>,)mul(188,237)'(*><<who()why())how()mul(738,289)what(639,365)$</]~'}what()when()mul(102,510)mul?!/%why()-why()who()where()how()don't()who()who()&',~%*where()mul(790,751)@;]mul(699,591)from(10,889)'from();~?%'mul(501,173)):mul(92,868)~>#@from()$&[mul(896,181)+why()[/}mul(292,818):what(933,189)when()where()+when(),how()mul(325,460)*!'?$}why()mul(868,19)]>do()]]'@-select()+?:,mul(705,664)why() :when(320,386):]where()mul(101,603)from()mul(584,674){*why()mul(527,341)mul(314,923),&*!#don't()from(),&: mul(610,911))(!when(12,857)how()&}/don't(){from(872,604)[]}}$when()from(393,26)mulwhy()why()from():;] }mul(618,762)who()>#' <-@why()#mul(342,769)#'-&<:from():>*mul(995,557)[':&when()&don't()%+}:who(699,463)}?mul(949,652):why()#'what()mul(466,912)how() ~where(){?mul(498,589)-:]}*(<?&mul(922,310)mul(469,882when()who()#{mul(553,266)!;&(%select()?#@how()mul(84,210)from()where():mul(7,362)~?{$~!:why()^mul(770,657)]%#mul(601,370)how()?#mul(81,96);who(){mul(519,362)what()} ##:~>mul(554,92)select();~how()&#mul(296,200)$why()why()don't()mul(718,92)[select()*?:where()mul(868,217)when()'what()]mul(608,255how():*~when()!:%{how(720,870)mul(857,876)+[how()select():[mul(926,987)why()]select()don't()%?,/&][]>^mul(20,520)mul(970,495); ?from(971,165)+@'{>mul(541,168)mul(697,290)/mul(724,20)/@/how()when()select()(]why()do()-(mul(250,857)}~<mul(670,830):mul(37,452)#%</who()@why()mul(258,824)'-^+#}how(683,511)from()who()mul(572,263))(mul(516,90)&# }where(161,891)$?>mul(612,107):>'}+{(@<mul(410,789)'@mul(41,356)
 how()who()from()why()&+'what()+mul(948,970)how()^^ what()what()mul(124,952)#?why()']?when()mul(559where()$/<}#mul(683,315),{*mul(835,821)@%{who()?mul(528,442)#{/+!#>&?mul(264,859):'{;+]who()-mul(671,460)}how()when()[{mul(383,254) !mul(3,918)mul(874,303)!@mul(279,457)why()*>from()do()#/?<mul(522,927)what()[)what()~~how()when()}>mul(567,487)<what()?,][*}mul(390,810)![why()$who()mul(632,35):~ ',mul(741,335)[how()+>]*&don't()(who()}'mul(522,610)when()${{]#'mul(311,306);{^{ '[mul(270,712)@'}%why()#~:^what()do()>mul(6,137);from()-*%,;~<mul(123,497)mul(47,167>how();+ from()[?&how()]do()~who())& &;%why()why()mul(742,979)$}#,what(609,482)^mul(506,252) -:what(362,209) who()mul(399,346)%'&?mul(229,623)!)how()~mul(436,283)!)@how(){?mul(237,965) #>mul(594,38)^-mul(516,90)who(441,355)[+from()/how()mul~%[mul(434,408)where(690,778)when(978,434)>]?what()[mul(907,397)?@do()?@,select()who()-%(]where()mul(36,78)(:+when()select()mul(477,631)[#when()}mul(45,264@who()select()(mul(656,657)]select()how()[))from()mul(444,181)]!+select(36,597){*who()!/ mul(543,648)from()from()from()$when()+-} mul(293,90)who(183,746)mul(872,855how()[!>~from()*?'<mul(449,852)$:why()!+mul(71,240)?@#}:where()+from(){mul(191,72)@&^&({from()mul(981,127)?&how()[}mul(78,213)*&where()when()^what()@&%mul(149,819)@why()from(376,630) when()+don't()(><] mul(664,827)'-from()#*]mul(912,740)'from()when(473,160)mul(459,94);do()?:, ],{mul(322,110)}>where()}when()when()mul(443,449)where()#}~]mul(94,385)where()>do()<*:@##?what()'mul(63,18)[mul(414,464)>do()what(858,375)%}<'^!*mul(855,863)(mul(557,951)select()$what()+?%/ ]mul(805,186)^who()'mul(549,457)mul(604,658)select()!*~mul(508,395)where()+~]^mul(404,113)*)&$-'where()mul(428,314)$($(%$/,?where()mul(33,256)?mul(199,365)&select()when()>what(111,916)from()mul(588,754)(},@-+who()when()mul(828,506)&select(),select()who()#mul(689,772)$-&@+~what()mul(96,741)}?{-where()when(891,721)~do()*#<%who()^&;#how()mul(365,858)*$mul(903,693)who(385,109)what()'%}'mul(27,403)who()mul(874,113)( ,-@@mul(260,787)@why()*from()mul(679,437)?why()from()-what()mul(240,527):,from()>#[$do()}what()]mul(632,184)&)[?when()mul(70,409):[^-where(585,55)]%^mul(779,948)?$}from();[+?mul(964,869)-?^when() [ mul(729,356)how()({>]+ why()how(908,783)from()mul(774,617)!how()')*;]mul(484,579),#select()&why()mul(873,5)(/(@mul(573,802)what()<(<*mul(759,343)?mul(301,853)when()][) don't()?+from()mul(556,868)?$how()@>*when()<:$don't()/<^)/what()!mul(434,251)mul(882,866),mul(744,572)(why(112,504)$-how()mul(154,96)mul(201,94)$[:@&%-,>!mul(188,433)!*?mul(546,999)%&@>*/mul(310,391)-<+{]mul(938,579)+,@%[why()why(75,712)+from():mul(472,593)^mul(733,69)why())mul(961,406)~@$* )-from()mul(932,700): %!mul(382,321)!mul(297,196)where()mul(444,227)what()where())^#who()from()-mul(65,99)$:why()mul(652,486)mul(446,486)mul(970,630)$~]mul(510,304)]*:>how()/}$'''
 
-example_input = 'xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))'
+example_input = '''xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))'''
 
 
 START = 0
 M = 1
 U = 2
 L = 3
-OPEN = 4
+OPEN_MUL = 4
 ARG1_DIGIT1 = 5
 ARG1_DIGIT2 = 6
 ARG1_DIGIT3 = 7
@@ -22,12 +22,19 @@ COMMA = 8
 ARG2_DIGIT1 = 9
 ARG2_DIGIT2 = 10
 ARG2_DIGIT3 = 11
-# CLOSE = 12
+D = 12
+O = 13
+OPEN_DO = 14
+N = 15
+APOS = 16
+T = 17
+OPEN_DONT = 18
+
 
 
 def parse_input(input):
     muls = []
-    data = (None, None, None)
+    data = (None, None, None, True)
     state = START
     for s in input:
         if state == START:
@@ -38,8 +45,8 @@ def parse_input(input):
             state, data = from_u(s, data)
         elif state == L:
             state, data = from_l(s, data)
-        elif state == OPEN:
-            state, data = from_open(s, data)
+        elif state == OPEN_MUL:
+            state, data = from_open_mul(s, data)
         elif state == ARG1_DIGIT1:
             state, data = from_arg1_digit1(s, data)
         elif state == ARG1_DIGIT2:
@@ -51,25 +58,43 @@ def parse_input(input):
         elif state == ARG2_DIGIT1:
             state, data = from_arg2_digit1(s, data)
             if data[0] != None and data[1] != None:
-                first = int(data[0])
-                second = int(data[1])
-                muls.append((first, second))
-                data = (None, None, None)
+                if data[3]:
+                    first = int(data[0])
+                    second = int(data[1])
+                    muls.append((first, second))
+                data = (None, None, None, data[3])
         elif state == ARG2_DIGIT2:
             state, data = from_arg2_digit2(s, data)
             if data[0] != None and data[1] != None:
-                first = int(data[0])
-                second = int(data[1])
-                muls.append((first, second))
-                data = (None, None, None)
+                if data[3]:
+                    first = int(data[0])
+                    second = int(data[1])
+                    muls.append((first, second))
+                data = (None, None, None, data[3])
         elif state == ARG2_DIGIT3:
             state, data = from_arg2_digit3(s, data)
             if data[0] != None and data[1] != None:
-                first = int(data[0])
-                second = int(data[1])
-                muls.append((first, second))
-                data = (None, None, None)
-        
+                if data[3]:
+                    first = int(data[0])
+                    second = int(data[1])
+                    muls.append((first, second))
+                data = (None, None, None, data[3])
+        elif state == D:
+            state, data = from_d(s, data)
+        elif state == O:
+            state, data = from_o(s, data)
+        elif state == OPEN_DO:
+            state, data = from_open_do(s, data)
+        elif state == N:
+            state, data = from_n(s, data)
+        elif state == APOS:
+            state, data = from_apos(s, data)
+        elif state == T:
+            state, data = from_t(s, data)
+        elif state == OPEN_DONT:
+            state, data = from_open_dont(s, data)
+            if state == START:
+                enabled = False
     return muls
 
 
@@ -77,6 +102,8 @@ def from_start(s, data):
     state = None
     if s == 'm':
         state = M
+    elif s == 'd':
+        state = D
     else:
         state = START
 
@@ -87,6 +114,10 @@ def from_m(s, data):
     state = None
     if s == 'u':
         state = U
+    elif s == 'm':
+        state = M
+    elif s == 'd':
+        state = D
     else:
         state = START
 
@@ -97,6 +128,10 @@ def from_u(s, data):
     state = None
     if s == 'l':
         state = L
+    elif s == 'm':
+        state = M
+    elif s == 'd':
+        state = D
     else:
         state = START
 
@@ -106,18 +141,26 @@ def from_u(s, data):
 def from_l(s, data):
     state = None
     if s == '(':
-        state = OPEN
+        state = OPEN_MUL
+    elif s == 'm':
+        state = M
+    elif s == 'd':
+        state = D
     else:
         state = START
 
     return state, data
 
 
-def from_open(s, data):
+def from_open_mul(s, data):
     state = None
     if s.isdigit():
         state = ARG1_DIGIT1
-        data = (None, None, s)
+        data = (None, None, s, data[3])
+    elif s == 'm':
+        state = M
+    elif s == 'd':
+        state = D
     else:
         state = START
 
@@ -128,13 +171,19 @@ def from_arg1_digit1(s, data):
     state = None
     if s.isdigit():
         state = ARG1_DIGIT2
-        data = (None, None, data[2] + s)
+        data = (None, None, data[2] + s, data[3])
     elif s == ',':
         state = COMMA
-        data = (data[2], None, None)
+        data = (data[2], None, None, data[3])
+    elif s == 'm':
+        state = M
+        data = (None, None, None, data[3])
+    elif s == 'd':
+        state = D
+        data = (None, None, None, data[3])
     else:
         state = START
-        data = (None, None, None)
+        data = (None, None, None, data[3])
 
     return state, data
 
@@ -143,13 +192,19 @@ def from_arg1_digit2(s, data):
     state = None
     if s.isdigit():
         state = ARG1_DIGIT3
-        data = (None, None, data[2] + s)
+        data = (None, None, data[2] + s, data[3])
     elif s == ',':
         state = COMMA
-        data = (data[2], None, None)
+        data = (data[2], None, None, data[3])
+    elif s == 'm':
+        state = M
+        data = (None, None, None, data[3])
+    elif s == 'd':
+        state = D
+        data = (None, None, None, data[3])
     else:
         state = START
-        data = (None, None, None)
+        data = (None, None, None, data[3])
 
     return state, data
 
@@ -158,10 +213,16 @@ def from_arg1_digit3(s, data):
     state = None
     if s == ',':
         state = COMMA
-        data = (data[2], None, None)
+        data = (data[2], None, None, data[3])
+    elif s == 'm':
+        state = M
+        data = (None, None, None, data[3])
+    elif s == 'd':
+        state = D
+        data = (None, None, None, data[3])
     else:
         state = START
-        data = (None, None, None)
+        data = (None, None, None, data[3])
 
     return state, data
 
@@ -170,9 +231,16 @@ def from_comma(s, data):
     state = None
     if s.isdigit():
         state = ARG2_DIGIT1
-        data = (data[0], None, s)
+        data = (data[0], None, s, data[3])
+    elif s == 'm':
+        state = M
+        data = (None, None, None, data[3])
+    elif s == 'd':
+        state = D
+        data = (None, None, None, data[3])
     else:
         state = START
+        data = (None, None, None, data[3])
 
     return state, data
 
@@ -181,13 +249,19 @@ def from_arg2_digit1(s, data):
     state = None
     if s.isdigit():
         state = ARG2_DIGIT2
-        data = (data[0], None, data[2] + s)
+        data = (data[0], None, data[2] + s, data[3])
     elif s == ')':
         state = START
-        data = (data[0], data[2], None)
+        data = (data[0], data[2], None, data[3])
+    elif s == 'm':
+        state = M
+        data = (None, None, None, data[3])
+    elif s == 'd':
+        state = D
+        data = (None, None, None, data[3])
     else:
         state = START
-        data = (None, None, None)
+        data = (None, None, None, data[3])
 
     return state, data
 
@@ -196,13 +270,19 @@ def from_arg2_digit2(s, data):
     state = None
     if s.isdigit():
         state = ARG2_DIGIT3
-        data = (data[0], None, data[2] + s)
+        data = (data[0], None, data[2] + s, data[3])
     elif s == ')':
         state = START
-        data = (data[0], data[2], None)
+        data = (data[0], data[2], None, data[3])
+    elif s == 'm':
+        state = M
+        data = (None, None, None, data[3])
+    elif s == 'd':
+        state = D
+        data = (None, None, None, data[3])
     else:
         state = START
-        data = (None, None, None)
+        data = (None, None, None, data[3])
 
     return state, data
 
@@ -211,10 +291,118 @@ def from_arg2_digit3(s, data):
     state = None
     if s == ')':
         state = START
-        data = (data[0], data[2], None)
+        data = (data[0], data[2], None, data[3])
+    elif s == 'm':
+        state = M
+        data = (None, None, None, data[3])
+    elif s == 'd':
+        state = D
+        data = (None, None, None, data[3])
     else:
         state = START
-        data = (None, None, None)
+        data = (None, None, None, data[3])
+
+    return state, data
+
+
+def from_d(s, data):
+    state = None
+    if s == 'o':
+        state = O
+    elif s == 'm':
+        state = M
+    elif s == 'd':
+        state = D
+    else:
+        state = START
+
+    return state, data
+
+
+def from_o(s, data):
+    state = None
+    if s == '(':
+        state = OPEN_DO
+    elif s == 'n':
+        state = N
+    elif s == 'm':
+        state = M
+    elif s == 'd':
+        state = D
+    else:
+        state = START
+
+    return state, data
+
+
+def from_open_do(s, data):
+    state = None
+    if s == ')':
+        state = START
+        data = (None, None, None, True)
+    elif s == 'm':
+        state = M
+    elif s == 'd':
+        state = D
+    else:
+        state = START
+
+    return state, data
+
+
+def from_n(s, data):
+    state = None
+    if s == "'":
+        state = APOS
+    elif s == 'm':
+        state = M
+    elif s == 'd':
+        state = D
+    else:
+        state = START
+
+    return state, data
+
+
+def from_apos(s, data):
+    state = None
+    if s == 't':
+        state = T
+    elif s == 'm':
+        state = M
+    elif s == 'd':
+        state = D
+    else:
+        state = START
+
+    return state, data
+
+
+def from_t(s, data):
+    state = None
+    if s == '(':
+        state = OPEN_DONT
+    elif s == 'm':
+        state = M
+    elif s == 'd':
+        state = D
+    else:
+        state = START
+
+    return state, data
+
+
+def from_open_dont(s, data):
+    state = None
+    if s == ')':
+        state = START
+        data = (None, None, None, False)
+    elif s == 'm':
+        state = M
+    elif s == 'd':
+        state = D
+    else:
+        state = START
 
     return state, data
 
