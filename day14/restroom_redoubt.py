@@ -1,6 +1,6 @@
 # https://adventofcode.com/2024/day/14
 
-input = '''p=62,20 v=85,-14
+data = '''p=62,20 v=85,-14
 p=88,18 v=-70,97
 p=51,21 v=35,-22
 p=19,56 v=2,45
@@ -588,28 +588,46 @@ def sort_into_quadrants(positions, room_size):
     return quadrant_counts
 
 
+def render_positions(positions, room_size):
+    map = []
+    for y in range(room_size[1]):
+        row = []
+        for x in range(room_size[0]):
+            row.append(' ')
+        
+        map.append(row)
+
+    for position in positions:
+        map[position[1]][position[0]] = '*'
+    
+    # half vertical resolution so it fits on the screen
+    # map = [map[i] for i in range(0, len(map), 2)]
+    picture = '\n'.join(''.join(line) for line in map)
+    return picture
+    
 
 room_size = input_room_size
-positions, velocities = load_input(input)
+positions, velocities = load_input(data)
+
+actual_steps = 0
+for steps in range(10403): # pattern repeats after 101 * 103 steps
+    print('STEP ', str(steps))
+    new_positions = move_robots(positions, velocities, steps, room_size)
+    picture = render_positions(new_positions, room_size)
+    print(picture)
+    print()
+    input()
+
+# I actually got lucky. A more practical solution is to look for certain clustering patterns in the output and visually check candidates.
 
 
-# for i in range(100):
-#     for j in range(10):
-#         steps = i * 100 + j
-#         print('STEP ', str(steps))
-#         positions = move_robots(positions, velocities, steps, room_size)
-#         picture = render_positions(positions)
-#         print(picture)
-#         print()
-    
-#     input('ENTER to continue')
-    
-positions = move_robots(positions, velocities, 100, room_size)
 
-robots_per_quadrant = sort_into_quadrants(positions, room_size)
+# positions = move_robots(positions, velocities, 100, room_size)
 
-safety_factor = 1
-for n in robots_per_quadrant:
-    safety_factor *= n
+# robots_per_quadrant = sort_into_quadrants(positions, room_size)
 
-print(safety_factor)
+# safety_factor = 1
+# for n in robots_per_quadrant:
+#     safety_factor *= n
+
+# print(safety_factor)
