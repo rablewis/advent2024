@@ -1021,6 +1021,31 @@ def load_data(data):
     return a, b
 
 
+def load_data_for_similarity(data):
+    lines = data.split('\n')
+    a = dict()
+    b = dict()
+    for line in lines:
+        ab = line.split('   ')
+
+        a_id = int(ab[0])
+        if not a_id in a.keys():
+            a[a_id] = 1
+        else:
+            a[a_id] += 1
+        
+        if not a_id in b.keys():
+            b[a_id] = 0
+
+        b_id = int(ab[1])
+        if not b_id in b.keys():
+            b[b_id] = 1
+        else:
+            b[b_id] += 1
+    
+    return a, b
+
+
 def p1():
     print('part 1')
     a, b = load_data(data)
@@ -1039,7 +1064,13 @@ def p1():
 
 def p2():
     print('part 2')
-    a, b = load_data(example_data)
+    a, b = load_data_for_similarity(data)
+    
+    similarity = 0
+    for id in a.keys():
+        similarity += id * a[id] * b[id]
+
+    print(similarity)
 
 
-p1()
+p2()
