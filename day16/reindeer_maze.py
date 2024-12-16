@@ -198,7 +198,7 @@ def load_data(data):
 
         map.append(row)
     
-    walls = []
+    walls = set()
     start = None
     end = None
 
@@ -206,7 +206,7 @@ def load_data(data):
         for x in range(len(map[0])):
             m = map[y][x]
             if m == WALL:
-                walls.append((x,y))
+                walls.add((x,y))
             elif m == START:
                 start = (x,y)
             elif m == END:
@@ -216,21 +216,18 @@ def load_data(data):
 
 
 def find_best_path(walls, start, end):
-    generated = []
+    generated = set()
     open = dict()
 
     if start == end:
         return 0 
 
     start_candidate = (start, 1)
-    generated.append(start_candidate)
-    open[start_candidate] = 0
+    generated.add(start_candidate)
+    open[start_candidate] = (0, min_cost(start_candidate, end))
     
     while True:
-        candidate, cost = next_candidate(open, end)
-        # print(candidate)
-        # print(cost)
-        # input()
+        candidate, cost = next_candidate(open)
 
         forward = step_forward(candidate)
         new_cost = cost + 1
@@ -238,39 +235,163 @@ def find_best_path(walls, start, end):
             return new_cost
         
         if forward not in generated:
-            generated.append(forward)
+            generated.add(forward)
             if forward[0] not in walls:
-                open[forward] = new_cost
+                open[forward] = (new_cost, new_cost + min_cost(forward, end))
 
         left = (candidate[0], (candidate[1] - 1) % 4)
         new_cost = cost + 1000
         if left not in generated:
-            generated.append(left)
-            open[left] = new_cost
+            generated.add(left)
+            open[left] = (new_cost, new_cost + min_cost(left, end))
 
         right = (candidate[0], (candidate[1] + 1) % 4)
         new_cost = cost + 1000
         if not right in generated:
-            generated.append(right)
-            open[right] = new_cost
+            generated.add(right)
+            open[right] = (new_cost, new_cost + min_cost(right, end))
 
         del open[candidate]
 
 
-def next_candidate(open, end):
+def find_best_paths(walls, start, end):
+    generated = set()
+    open = dict()
+
+    if start == end:
+        return 0 
+
+    start_candidate = (start, 1)
+    generated.add(start_candidate)
+    open[start_candidate] = (0, [[start]])
+    
+    cheapest_paths = []
+    lowest_cost = None
+
+    while True:
+        candidate, cost, paths = next_candidate_with_paths(open)
+
+        forward = step_forward(candidate)
+        new_cost = cost + 1
+        if forward[0] == end:
+            for path in paths:
+                cheapest_paths.append(path + [end])
+
+            lowest_cost = new_cost
+            break
+        
+        if forward not in generated:
+            generated.add(forward)
+            if forward[0] not in walls:
+                open[forward] = (new_cost, [path + [forward[0]] for path in paths])   # note this doesn't remove duplicate paths
+        elif forward in open.keys():
+            if open[forward][0] == new_cost:
+                # append new path(s) to forward's paths
+                open[forward] = (new_cost, open[forward][1] + [path + [forward[0]] for path in paths])   # note this doesn't remove duplicate paths
+
+        left = (candidate[0], (candidate[1] - 1) % 4)
+        new_cost = cost + 1000
+        if left not in generated:
+            generated.add(left)
+            open[left] = (new_cost, paths)
+        elif left in open.keys():
+            if open[left][0] == new_cost:
+                # append new path(s) to left's paths
+                open[left] = (new_cost, open[left][1] + paths)  # note this doesn't remove duplicate paths
+
+        right = (candidate[0], (candidate[1] + 1) % 4)
+        new_cost = cost + 1000
+        if not right in generated:
+            generated.add(right)
+            open[right] = (new_cost, paths)
+        elif right in open.keys():
+            if open[right][0] == new_cost:
+                # append new path(s) to right's paths
+                open[right] = (new_cost, open[right][1] + paths)  # note this doesn't remove duplicate paths
+
+        del open[candidate]
+
+    while len(open) > 0:
+        candidate, cost, paths = next_candidate_with_paths(open)
+        if cost >= lowest_cost:
+            del open[candidate]
+            continue
+
+        forward = step_forward(candidate)
+        if forward[0] == end:
+            cheapest_paths += [path + [end] for path in paths]  # note this doesn't remove duplicate paths
+            del open[candidate]
+            break
+        
+        new_cost = cost + 1
+        if new_cost < lowest_cost:
+            if forward not in generated:
+                generated.add(forward)
+                if forward[0] not in walls:
+                    open[forward] = (new_cost, [path + [forward[0]] for path in paths])  # note this doesn't remove duplicate paths
+            elif forward in open.keys():
+                if open[forward][0] == new_cost:
+                    # append new path(s) to forward's paths
+                    open[forward] = (new_cost, open[forward][1] + [path + forward[0] for path in paths])  # note this doesn't remove duplicate paths
+
+        new_cost = cost + 1000
+        if new_cost >= lowest_cost:
+            del open[candidate]
+            continue
+
+        left = (candidate[0], (candidate[1] - 1) % 4)
+        if left not in generated:
+            generated.add(left)
+            open[left] = (new_cost, paths)
+        elif left in open.keys():
+            if open[left][0] == new_cost:
+                # append new path(s) to left's paths
+                open[left] = (new_cost, open[left][1] + paths)  # note this doesn't remove duplicate paths
+
+        right = (candidate[0], (candidate[1] + 1) % 4)
+        if not right in generated:
+            generated.add(right)
+            open[right] = (new_cost, paths)
+        elif right in open.keys():
+            if open[right][0] == new_cost:
+                # append new path(s) to right's paths
+                open[right] = (new_cost, open[right][1] + paths)  # note this doesn't remove duplicate paths
+
+        del open[candidate]
+
+    return cheapest_paths
+
+
+def next_candidate(open):
     # initialise candidate, cost with an arbitrary entry
     for c in open.keys():
         break
 
     candidate = c
-    cost = open[c] + min_cost(candidate, end)
+    adjusted_cost = open[c][1]
 
     for c in open.keys():
-        if open[c] + min_cost(c, end) < cost:
+        if open[c][1] < adjusted_cost:
             candidate = c
-            cost = open[c] + min_cost(c, end)
+            adjusted_cost = open[c][1]
     
-    return candidate, open[candidate]
+    return candidate, open[candidate][0]
+
+
+def next_candidate_with_paths(open):
+    # initialise candidate, cost with an arbitrary entry
+    for c in open.keys():
+        break
+
+    candidate = c
+    cost = open[c][0]
+
+    for c in open.keys():
+        if open[c][0] < cost:
+            candidate = c
+            cost = open[c][0]
+    
+    return candidate, cost, open[candidate][1]
 
 
 def min_cost(candidate, goal):
@@ -343,25 +464,6 @@ def step_forward(candidate):
     return ((x,y), candidate[1])
 
 
-# def has_been_visited(visited, candidate):
-#     for v in visited:
-#         if v == candidate:
-#             print('ALREADY VISITED')
-#             return True
-        
-#     return False
-
-
-# def score(moves):
-#     total = 0
-#     for m in moves:
-#         if m == 0:
-#             total += 1
-#         else:
-#             total += 1000
-
-#     return total
-
 
 def p1():
     walls, start, end = load_data(data)
@@ -373,5 +475,19 @@ def p1():
     # expected score is 11048 for example data
 
 
+def p2():
+    walls, start, end = load_data(data)
+    paths = find_best_paths(walls, start, end)
 
-p1()
+    tiles = set()
+    for path in paths:
+        for tile in path:
+            tiles.add(tile)
+
+    print(len(tiles))
+
+    # answer is 45 for small example data
+    # answer is 64 for example data
+
+
+p2()
