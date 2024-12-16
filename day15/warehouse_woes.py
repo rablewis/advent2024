@@ -202,6 +202,7 @@ def load_robot2_data(data):
                 row.append(BOX_R)
             else:
                 row.append(ROBOT)
+                row.append(EMPTY)
 
         map.append(row)
     
@@ -237,24 +238,25 @@ def load_robot2_data(data):
 
 
 def try_move(walls, boxes, robot, move):
-    next = shift(robot, move)
-    if next in walls:
-        # can't move
-        return boxes, robot
-    
     boxes_to_move = []
-    while next in boxes:
-        boxes_to_move.insert(0, next)
-        next = shift(next, move)
-
-    if next in walls:
-        # can't move
-        return boxes, robot
+    next = shift(robot, move)
+    while next != None:
+        if next in walls:
+            # can't move
+            return boxes, robot
+    
+        pushed_box = None
+        for i in range(len(boxes)):
+            if boxes[i] == next:
+                boxes_to_move.append(i)
+                pushed_box = shift(boxes[i], move)
+                break
+        
+        next = pushed_box
     
     # move robot and boxes
-    for box in boxes_to_move:
-        boxes.append(shift(box, move))
-        boxes.remove(box)
+    for i in boxes_to_move:
+        boxes[i] = shift(boxes[i], move)
     
     robot = shift(robot, move)
 
@@ -262,28 +264,58 @@ def try_move(walls, boxes, robot, move):
 
 
 def try_move_robot2(walls, boxes, robot, move):
-    next = shift(robot, move)
-    if next in walls:
-        # can't move
-        return boxes, robot
-    
     boxes_to_move = []
-    while next in boxes:
-        boxes_to_move.insert(0, next)
-        next = shift(next, move)
+    next = shift_list([robot], move)
+    while len(next) > 0:
+        blocked = is_blocked(next, walls)
+        if blocked:
+            return boxes, robot
+        pushed, indices = pushed_boxes(next, boxes, move)
+        boxes_to_move.extend(indices)
 
-    if next in walls:
-        # can't move
-        return boxes, robot
+        next = shift_list(pushed, move)
     
     # move robot and boxes
-    for box in boxes_to_move:
-        boxes.append(shift(box, move))
-        boxes.remove(box)
+    for i in boxes_to_move:
+        boxes[0][i] = shift(boxes[0][i], move)
+        boxes[1][i] = shift(boxes[1][i], move)
     
     robot = shift(robot, move)
 
     return boxes, robot
+
+
+def is_blocked(positions, walls):
+    for p in positions:
+        if p in walls:
+            return True
+    
+    return False
+
+
+def pushed_boxes(positions, boxes, move):
+    pushed = []
+    indices = []
+    for p in positions:
+        if p in pushed:
+            continue
+        for i in range(len(boxes[0])):
+            if p == boxes[0][i] or p == boxes[1][i]:
+                indices.append(i)
+                if move != RIGHT:
+                    pushed.append(boxes[0][i])
+                if move != LEFT:
+                    pushed.append(boxes[1][i])
+
+    return pushed, indices
+
+
+def shift_list(positions, move):
+    next = []
+    for p in positions:
+        next.append(shift(p, move))
+    
+    return next
 
 
 def shift(position, move):
@@ -337,19 +369,22 @@ def p1():
         #     print()
         #     counter = 0
 
-
-
     print(gps(boxes))
 
     # answer (gps) for example data is 10092
 
 def p2():
     print('part 2')
-    walls, boxes, robot, moves, map_size = load_robot2_data(example_data)
+    walls, boxes, robot, moves, map_size = load_robot2_data(data)
 
-    print(gps(boxes))
+    i = 0
+    for move in moves:
+        boxes, robot = try_move_robot2(walls, boxes, robot, move)
+        i += 1
 
-    # answer (gps) for example data is 10092
+    print(gps(boxes[0]))
+
+    # answer (gps) for example data is 9021
 
 
-p1()
+p2()
