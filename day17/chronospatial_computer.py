@@ -129,6 +129,48 @@ def deref_combo(operand_code, registers):
     return registers[operand_code - 4]
 
 
+def targeted_calculate(program, registers):
+    combo_opcodes = [ADV, BST, OUT, BDV, CDV]
+
+    output = []
+    p = 0
+    while p < len(program):
+        opcode = program[p]
+        operand = program[p + 1]
+        if opcode in combo_opcodes:
+            operand = deref_combo(operand, registers)
+
+        if opcode == ADV:
+            registers = adv(operand, registers)
+        elif opcode == BXL:
+            registers = bxl(operand, registers)
+        elif opcode == BST:
+            registers = bst(operand, registers)
+        elif opcode == JNZ:
+            if registers[0] != 0:
+                p = operand
+                continue
+        elif opcode == BXC:
+            registers = bxc(registers)
+        elif opcode == OUT:
+            i = len(output)
+            target = program[i]
+            value = operand % 8
+            output.append(value)
+            if value != target:
+                return False, output
+
+        elif opcode == BDV:
+            registers = bdv(operand, registers)
+        else: # opcode == CDV:
+            registers = cdv(operand, registers)
+
+        p += 2
+    
+    return True, output
+
+
+
 def p1():
     print('part 1')
     program, a, b, c = load_data(data)
@@ -142,15 +184,42 @@ def p1():
 
 def p2():
     print('part 2')
-    program, a, b, c = load_data(example2_data)
-
+    program, a, b, c = load_data(example_data)
+    registers = (a, b, c)
     print(program)
-
-    a = 117440 ## THE ANSWER for example 2 data
-
-    output = calculate(program, (a, b, c))
-    result = ','.join([str(o) for o in output])
-    print(result)
+    print()
 
 
-p1()
+    target_length = len(program)
+
+    i = 0
+    output = calculate(program, (2 ** i, b, c))
+
+    while len(output) < target_length:
+        i += 1
+        output = calculate(program, (2 ** i, b, c))
+    
+    a = 2 ** i
+    matched, output2 = targeted_calculate(program, (a, b, c))
+
+    while not matched:
+        a += 1
+        matched, output2 = targeted_calculate(program, (a, b, c))
+        if a % 1000 == 0:
+            print(a)
+            print(output2)
+    
+    print(a)
+    print(output2)
+
+
+    # output = calculate(program, (a, b, c))
+    # print(output)
+    # print()
+
+
+
+    # a = 117440 ## THE ANSWER for example 2 data
+
+
+p2()
