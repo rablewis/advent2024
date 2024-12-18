@@ -151,7 +151,6 @@ def p2():
     # Once I saw that hint on the AoC subreddit, I coded this up and solved it pretty quickly.
     print('part 2')
     program, a, b, c = load_data(data)
-    registers = (a, b, c)
     print(program)
     print()
 
@@ -165,7 +164,7 @@ def p2():
             for i in range(8):
                 candidate = c * 8 + i
                 output = calculate(program, (candidate, b, c))
-                print(str(candidate), ': ', str(output))
+                # print(str(candidate), ': ', str(output))
                 if output == target:
                     new_candidates.append(candidate)
 
