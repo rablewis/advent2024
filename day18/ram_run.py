@@ -3489,7 +3489,7 @@ def load_data(data):
     return bytes
 
 
-# no longer using A* because it wasn't finding the BEST path
+# no longer using A* because it wasn't finding the BEST path (not sure why)
 # now just traversing all possible paths and remembering which was shortest
 def find_best_path(walls, start, end, map_size):
     generated = set()
@@ -3630,6 +3630,26 @@ def p1():
 
 def p2():
     print('part 2')
+    bytes = load_data(data)
+    size = map_size
 
+    start = 0,0
+    goal = size[0] - 1, size[1] - 1
 
-p1()
+    ## BRUTE FORCE !!!
+    blocking_byte = 1000000
+
+    number_of_bytes = 1024
+
+    while number_of_bytes <= len(bytes):
+        print(number_of_bytes)
+        cost, path = find_best_path(bytes[0:number_of_bytes], start, goal, size)
+        if cost == 1000000:  # crazy sentinel value
+            blocking_byte = number_of_bytes
+            break
+
+        number_of_bytes += 1
+
+    print(bytes[blocking_byte - 1])
+
+p2()
