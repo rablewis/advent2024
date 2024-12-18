@@ -155,7 +155,6 @@ def p2():
     print(program)
     print()
 
-    reversed = program.copy().reverse()
     candidates = [0]
     target = []
     for p in range(len(program)):
