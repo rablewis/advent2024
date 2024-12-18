@@ -129,48 +129,6 @@ def deref_combo(operand_code, registers):
     return registers[operand_code - 4]
 
 
-def targeted_calculate(program, registers):
-    combo_opcodes = [ADV, BST, OUT, BDV, CDV]
-
-    output = []
-    p = 0
-    while p < len(program):
-        opcode = program[p]
-        operand = program[p + 1]
-        if opcode in combo_opcodes:
-            operand = deref_combo(operand, registers)
-
-        if opcode == ADV:
-            registers = adv(operand, registers)
-        elif opcode == BXL:
-            registers = bxl(operand, registers)
-        elif opcode == BST:
-            registers = bst(operand, registers)
-        elif opcode == JNZ:
-            if registers[0] != 0:
-                p = operand
-                continue
-        elif opcode == BXC:
-            registers = bxc(registers)
-        elif opcode == OUT:
-            i = len(output)
-            target = program[i]
-            value = operand % 8
-            output.append(value)
-            if value != target:
-                return False, output
-
-        elif opcode == BDV:
-            registers = bdv(operand, registers)
-        else: # opcode == CDV:
-            registers = cdv(operand, registers)
-
-        p += 2
-    
-    return True, output
-
-
-
 def p1():
     print('part 1')
     program, a, b, c = load_data(data)
@@ -183,43 +141,41 @@ def p1():
     # answer is "4,6,3,5,6,3,5,2,1,0" for example data
 
 def p2():
+    # CONFESSION: I don't strictly understand why this works.
+    # I spent a lot of time studying the problem and could see that the instructions were
+    # all performing bit operations, and that the output was always from the bottom 3 bits.
+    # I also saw that the problem would probably be solved by working backwards from the end
+    # of the input.
+    # I didn't see (and still don't really) that the solution can definitely be reached by 
+    # working out possible solutions 3 bits at a time.
+    # Once I saw that hint on the AoC subreddit, I coded this up and solved it pretty quickly.
     print('part 2')
-    program, a, b, c = load_data(example_data)
+    program, a, b, c = load_data(data)
     registers = (a, b, c)
     print(program)
     print()
 
+    reversed = program.copy().reverse()
+    candidates = [0]
+    target = []
+    for p in range(len(program)):
+        target = program[-(p+1):]
+        print('target: ', str(target))
+        new_candidates = []
+        for c in candidates:
+            for i in range(8):
+                candidate = c * 8 + i
+                output = calculate(program, (candidate, b, c))
+                print(str(candidate), ': ', str(output))
+                if output == target:
+                    new_candidates.append(candidate)
 
-    target_length = len(program)
-
-    i = 0
-    output = calculate(program, (2 ** i, b, c))
-
-    while len(output) < target_length:
-        i += 1
-        output = calculate(program, (2 ** i, b, c))
+        candidates = new_candidates
+        print(str(len(candidates)), ' candidates active')
+        print()
     
-    a = 2 ** i
-    matched, output2 = targeted_calculate(program, (a, b, c))
-
-    while not matched:
-        a += 1
-        matched, output2 = targeted_calculate(program, (a, b, c))
-        if a % 1000 == 0:
-            print(a)
-            print(output2)
-    
-    print(a)
-    print(output2)
-
-
-    # output = calculate(program, (a, b, c))
-    # print(output)
-    # print()
-
-
+    print(candidates[0]) # the first one will be the smallest
 
     # a = 117440 ## THE ANSWER for example 2 data
-
 
 p2()
