@@ -502,6 +502,42 @@ def has_match(patterns, target_design):
     return found
 
 
+match_count_cache = dict()
+def get_cached_match_count(design):
+    hash = make_hash(design)
+    if not hash in match_count_cache.keys():
+        return None
+    
+    return match_count_cache[hash]
+
+
+def cache_match_count(design, match_count):
+    hash = make_hash(design)
+    match_count_cache[hash] = match_count
+
+
+def count_arrangements(patterns, target_design):
+    cached = get_cached_match_count(target_design)
+    if cached != None:
+        return cached
+    
+    count = 0
+    for pattern in patterns:
+        if not starts_with_pattern(pattern, target_design):
+            continue
+
+        if len(target_design) == len(pattern):
+            count += 1
+            continue
+
+        remaining = target_design[len(pattern):]
+    
+        count += count_arrangements(patterns, remaining)
+        
+    cache_match_count(target_design, count)
+    return count
+
+
 def starts_with_pattern(pattern, design):
     if len(pattern) > len(design):
         return False
@@ -514,28 +550,6 @@ def starts_with_pattern(pattern, design):
         i += 1
     
     return True
-
-
-# def is_match(patterns, options, target_design):
-#     i = 0
-#     for o in options:
-#         pattern = patterns[o]
-#         for c in pattern:
-#             if c != target_design[i]:
-#                 return False
-            
-#             i += 1
-        
-#     return i == len(target_design)
-        
-
-# def design_len(patterns, options):
-#     l = 0
-#     for o in options:
-#         l += len(patterns[o])
-    
-#     return l
-    
 
 
 def p1():
@@ -560,6 +574,20 @@ def p1():
 
 def p2():
     print('part 2')
+    patterns, designs = load_data(data)
+    # print(patterns)
+    # print(designs)
+
+    print(str(len(designs)), ' designs')
+
+    count = 0
+    for i in range(len(designs)):
+        design = designs[i]
+        print('design ', str(i))
+        count += count_arrangements(patterns, design)
 
 
-p1()
+    print(count)
+
+
+p2()
