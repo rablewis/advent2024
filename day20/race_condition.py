@@ -220,7 +220,7 @@ def find_honest_path(walls, start, end):
     return path
 
 
-def find_cheat_paths(honest_path):
+def find_cheat_paths(honest_path, cheat_time):
     honest_path_length = len(honest_path)
     cheat_paths = dict()
 
@@ -229,13 +229,13 @@ def find_cheat_paths(honest_path):
             cheat_start = honest_path[cheat_start_index]
             cheat_end = honest_path[cheat_end_index]
             dist = distance(cheat_start, cheat_end)
-            if dist != 2:
+            if dist > cheat_time:
                 continue
 
             # found a new cheat path
             shortcut = (cheat_start, cheat_end)
             steps_skipped = cheat_end_index - cheat_start_index
-            cheat_paths[shortcut] = steps_skipped
+            cheat_paths[shortcut] = (steps_skipped, dist)
 
     return cheat_paths
 
@@ -256,11 +256,12 @@ def p1():
 
     honest_path = find_honest_path(walls, start, end)
 
-    cheat_paths = find_cheat_paths(honest_path)
+    cheat_paths = find_cheat_paths(honest_path, 2)
 
     cheats_saving_100_picoseconds = 0
     for shortcut in cheat_paths.keys():
-        if cheat_paths[shortcut] >= 102:
+        stats = cheat_paths[shortcut]
+        if stats[0] - stats[1] >= 100:
             cheats_saving_100_picoseconds += 1
     
     print(cheats_saving_100_picoseconds)
@@ -268,6 +269,19 @@ def p1():
 
 def p2():
     print('part 2')
+    walls, start, end = load_data(data)
+
+    honest_path = find_honest_path(walls, start, end)
+
+    cheat_paths = find_cheat_paths(honest_path, 20)
+
+    cheats_saving_100_picoseconds = 0
+    for shortcut in cheat_paths.keys():
+        stats = cheat_paths[shortcut]
+        if stats[0] - stats[1] >= 100:
+            cheats_saving_100_picoseconds += 1
+    
+    print(cheats_saving_100_picoseconds)
 
 
-p1()
+p2()
