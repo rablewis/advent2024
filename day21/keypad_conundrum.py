@@ -49,6 +49,9 @@ numpad = {
     'A': (2,3)
 }
 
+NUMBER_BLANK = (0,3)
+
+
 dirpad = {
     '^': (1,0),
     'A': (2,0),
@@ -56,6 +59,8 @@ dirpad = {
     'v': (1,1),
     '>': (2,1)
 }
+
+COMMAND_BLANK = (0,0)
 
 
 def short_number_path(code, depth):
@@ -66,64 +71,69 @@ def short_number_path(code, depth):
     for i in range(len(code)):
         start_key = None if i == 0 else code[i - 1]
         end_key = code[i]
-        path = path + short_num_path(start_key, end_key)
 
-    return short_direction_path(path, depth - 1)
+        path += short_num_path(start_key, end_key, depth)
+
+    return path
 
 
-def short_num_path(start_key, end_key):
+def short_num_path(start_key, end_key, depth):
     if start_key == None:
         start_key = 'A'
 
     # TODO: if cached, return cache result
     start = numpad[start_key]
     end = numpad[end_key]
-    path = ''
-    if start_key == '0' or start_key == 'A':
-        path += v_path(start, end)
-        path += h_path(start, end)
-    else:
-        path += h_path(start, end)
-        path += v_path(start, end)
-    
-    path += 'A'
 
-    # path = short_direction_path(path, 2)
+    shortest_path = None
+    for np in num_path_options(start, end):
+        path = short_direction_path(np, depth - 1)
+        if shortest_path == None or len(path) < len(shortest_path):
+            shortest_path = path
+
     # TODO: cache result
-
-    return path
-
-
-def h_path(start, end):
-    diff = end[0] - start[0]
-    if diff == -2:
-        return '<<'
-    elif diff == -1:
-        return '<'
-    elif diff == 0:
-        return ''
-    elif diff == 1:
-        return '>'
-    else:
-        return '>>'
+    return shortest_path
 
 
-def v_path(start, end):
-    diff = end[1] - start[1]
-    if diff == -3:
-        return '^^^'
-    elif diff == -2:
-        return '^^'
-    elif diff == -1:
-        return '^'
-    elif diff == 0:
-        return ''
-    elif diff == 1:
-        return 'v'
-    elif diff == 2:
-        return 'vv'
-    else:
-        return 'vvv'
+def num_path_options(start, end):
+    xdiff = end[0] - start[0]
+    ydiff = end[1] - start[1]
+
+    if xdiff == 0 and ydiff == 0:
+        return ['A']
+
+    xdir = 0
+    hor = ''
+    if xdiff < 0:
+        hor = '<'
+        xdir = -1
+    elif xdiff > 0:
+        hor = '>'
+        xdir = 1
+
+    ydir = 0
+    ver = ''
+    if ydiff < 0:
+        ver = '^'
+        ydir = -1
+    elif ydiff > 0:
+        ver = 'v'
+        ydir = 1
+    
+    options = []
+    if xdiff != 0:
+        horizontal = (start[0] + xdir, start[1])
+        if horizontal != NUMBER_BLANK:
+            hoptions = num_path_options(horizontal, end)
+            options.extend([hor + hoption for hoption in hoptions])
+    
+    if ydiff != 0:
+        vertical = (start[0], start[1] + ydir)
+        if vertical != NUMBER_BLANK:
+            voptions = num_path_options(vertical, end)
+            options.extend([ver + voption for voption in voptions])
+
+    return options
 
 
 def short_direction_path(sequence, depth):
@@ -134,33 +144,69 @@ def short_direction_path(sequence, depth):
     for i in range(len(sequence)):
         start_key = None if i == 0 else sequence[i - 1]
         end_key = sequence[i]
-        # commands += short_dir_path(start_key, end_key, depth)
-        commands += short_dir_path(start_key, end_key)
+        commands += short_dir_path(start_key, end_key, depth)
 
-    return short_direction_path(commands, depth - 1)
+    return commands
 
 
-def short_dir_path(start_key, end_key):
+def short_dir_path(start_key, end_key, depth):
     if start_key == None:
         start_key = 'A'
 
     # TODO: if cached, return cache result
     start = dirpad[start_key]
     end = dirpad[end_key]
-    path = ''
-    if start_key == '^' or start_key == 'A':
-        path += v_path(start, end)
-        path += h_path(start, end)
-    else:
-        path += h_path(start, end)
-        path += v_path(start, end)
-    
-    path += 'A'
 
-    # path = short_direction_path(path, depth - 1)
+    shortest_path = None
+    for dp in dir_path_options(start, end):
+        path = short_direction_path(dp, depth - 1)
+        if shortest_path == None or len(path) < len(shortest_path):
+            shortest_path = path
+
     # TODO: cache result
+    return shortest_path
 
-    return path
+
+def dir_path_options(start, end):
+    xdiff = end[0] - start[0]
+    ydiff = end[1] - start[1]
+
+    if xdiff == 0 and ydiff == 0:
+        return ['A']
+
+    xdir = 0
+    hor = ''
+    if xdiff < 0:
+        hor = '<'
+        xdir = -1
+    elif xdiff > 0:
+        hor = '>'
+        xdir = 1
+
+    ydir = 0
+    ver = ''
+    if ydiff < 0:
+        ver = '^'
+        ydir = -1
+    elif ydiff > 0:
+        ver = 'v'
+        ydir = 1
+    
+    options = []
+    if xdiff != 0:
+        horizontal = (start[0] + xdir, start[1])
+        if horizontal != COMMAND_BLANK:
+            hoptions = dir_path_options(horizontal, end)
+            options.extend([hor + hoption for hoption in hoptions])
+    
+    if ydiff != 0:
+        vertical = (start[0], start[1] + ydir)
+        if vertical != COMMAND_BLANK:
+            voptions = dir_path_options(vertical, end)
+            options.extend([ver + voption for voption in voptions])
+
+    return options
+
 
 
 
@@ -170,10 +216,9 @@ def p1():
 
     robots = 3
 
-
     # codes = example_data.split('\n')
     codes = data.split('\n')
-    # codes = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    # codes = ['379A']
 
     complexity = 0
     for code in codes:
@@ -185,14 +230,11 @@ def p1():
             if n == robots:
                 comp = int(code[:-1]) * len(path)
                 complexity += comp
-                print(str(int(code[:-1])), ' * ', str(len(path)), ' = ', str(comp))
-            
+                print(comp)
+        
         print()
-
+        
     print(complexity)
-
-
-
 
 
 def p2():
