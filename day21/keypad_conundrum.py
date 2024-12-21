@@ -77,6 +77,19 @@ def short_number_path(code, depth):
     return path
 
 
+def short_number_path_length(code, depth):
+    if depth == 0:
+        return len(code)
+    
+    path_length = 0
+    for i in range(len(code)):
+        start_key = None if i == 0 else code[i - 1]
+        end_key = code[i]
+        path_length += short_num_path_length(start_key, end_key, depth)
+
+    return path_length
+
+
 def short_num_path(start_key, end_key, depth):
     if start_key == None:
         start_key = 'A'
@@ -93,6 +106,32 @@ def short_num_path(start_key, end_key, depth):
 
     # TODO: cache result
     return shortest_path
+
+
+num_path_length_cache = dict()
+
+def short_num_path_length(start_key, end_key, depth):
+    if start_key == None:
+        start_key = 'A'
+
+    # if cached, return cache result
+    cached = num_path_length_cache.get((start_key, end_key, depth))
+    if cached != None:
+        return cached
+    
+    start = numpad[start_key]
+    end = numpad[end_key]
+
+    shortest_path_length = None
+    for np in num_path_options(start, end):
+        path_length = short_direction_path_length(np, depth - 1)
+        if shortest_path_length == None or path_length < shortest_path_length:
+            shortest_path_length = path_length
+
+    # cache result
+    num_path_length_cache[(start_key, end_key, depth)] = shortest_path_length
+
+    return shortest_path_length
 
 
 def num_path_options(start, end):
@@ -149,6 +188,19 @@ def short_direction_path(sequence, depth):
     return commands
 
 
+def short_direction_path_length(sequence, depth):
+    if depth == 0:
+        return len(sequence)
+    
+    commands_length = 0
+    for i in range(len(sequence)):
+        start_key = None if i == 0 else sequence[i - 1]
+        end_key = sequence[i]
+        commands_length += short_dir_path_length(start_key, end_key, depth)
+
+    return commands_length
+
+
 def short_dir_path(start_key, end_key, depth):
     if start_key == None:
         start_key = 'A'
@@ -165,6 +217,32 @@ def short_dir_path(start_key, end_key, depth):
 
     # TODO: cache result
     return shortest_path
+
+
+dir_path_length_cache = dict()
+
+def short_dir_path_length(start_key, end_key, depth):
+    if start_key == None:
+        start_key = 'A'
+
+    # if cached, return cache result
+    cached = dir_path_length_cache.get((start_key, end_key, depth))
+    if cached != None:
+        return cached
+    
+    start = dirpad[start_key]
+    end = dirpad[end_key]
+
+    shortest_path_length = None
+    for dp in dir_path_options(start, end):
+        path_length = short_direction_path_length(dp, depth - 1)
+        if shortest_path_length == None or path_length < shortest_path_length:
+            shortest_path_length = path_length
+
+    # cache result
+    dir_path_length_cache[(start_key, end_key, depth)] = shortest_path_length
+
+    return shortest_path_length
 
 
 def dir_path_options(start, end):
@@ -218,7 +296,6 @@ def p1():
 
     # codes = example_data.split('\n')
     codes = data.split('\n')
-    # codes = ['379A']
 
     complexity = 0
     for code in codes:
@@ -239,6 +316,21 @@ def p1():
 
 def p2():
     print('part 2')
+    print()
+
+    robots = 26
+
+    # codes = example_data.split('\n')
+    codes = data.split('\n')
+
+    complexity = 0
+    for code in codes:
+        path_length = short_number_path_length(code, robots)
+        comp = int(code[:-1]) * path_length
+        complexity += comp
+
+    print(complexity)
 
 
-p1()
+
+p2()
