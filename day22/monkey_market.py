@@ -2083,9 +2083,65 @@ def next_secret_number(number):
     return number
 
 
-def maximise_price(starting_number, iterations):
-    return 0
+def maximise_bananas(starting_numbers, iterations):
+    total_bananas = dict()
+    for starting_number in starting_numbers:
+        buyer_bananas = dict()
+        number = starting_number
+        previous = number % 10
+        differences = [None, None, None, None]
+        for i in range(3):
+            number = next_secret_number(number)
+            price = number % 10
+            differences[i % 4] = price - previous
+            previous = price
 
+        for i in range(3, iterations):
+            number = next_secret_number(number)
+            price = number % 10
+            differences[i % 4] = price - previous
+            sequence = diff_sequence(differences, i)
+            add_bananas(buyer_bananas, sequence, price)
+
+            previous = price
+
+        add_buyer_bananas(total_bananas, buyer_bananas)
+
+    max_bananas = find_max_bananas(total_bananas)
+    return max_bananas
+
+
+def diff_sequence(differences, i):
+    diff_0 = differences[(i-3) % 4]
+    diff_1 = differences[(i-2) % 4]
+    diff_2 = differences[(i-1) % 4]
+    diff_3 = differences[i % 4]
+
+    return (diff_0, diff_1, diff_2, diff_3)
+
+
+def add_bananas(bananas, sequence, price):
+    if sequence not in bananas.keys():
+        bananas[sequence] = price
+
+
+def add_buyer_bananas(total_bananas, buyer_bananas):
+    for sequence in buyer_bananas.keys():
+        if sequence not in total_bananas.keys():
+            total_bananas[sequence] = 0
+        
+        old = total_bananas[sequence]
+        total_bananas[sequence] = old + buyer_bananas[sequence]
+
+
+def find_max_bananas(bananas):
+    max_bananas = 0
+    for b in bananas.values():
+        if b > max_bananas:
+            max_bananas = b
+
+    return max_bananas
+   
 
 def mix(number, mixin):
     return number ^ mixin  # bitwise xor
@@ -2117,9 +2173,9 @@ def p2():
     print('part 2')
     
     starting_secret_numbers = load_data(data)
-    price = maximise_price(starting_secret_numbers, 2000)
+    price = maximise_bananas(starting_secret_numbers, 2000)
 
     print(price)
 
 
-p1()
+p2()
