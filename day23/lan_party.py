@@ -46,9 +46,15 @@ def fully_connected_groups(graph, size):
     if size == 1:
         return {(n,) for n in graph.keys()}
 
-    groups = set()
     smaller_groups = fully_connected_groups(graph, size - 1)
-    for group in smaller_groups:
+
+    return fully_connected_bigger_groups(graph, smaller_groups)
+
+
+
+def fully_connected_bigger_groups(graph, connected_groups):
+    groups = set()
+    for group in connected_groups:
         intersection = None
         for node in group:
             connected_nodes = graph[node]
@@ -64,8 +70,8 @@ def fully_connected_groups(graph, size):
             new_group = tuple(new_group_members)
             groups.add(new_group)
 
-    print(groups)
     return groups
+
 
 
 def p1():
@@ -86,4 +92,23 @@ def p1():
     print(len(t_groups_of_three))
 
 
-p1()
+def p2():
+    print('part 2')
+
+    connections = load_data('data.txt')
+
+    network = build_network(connections)
+
+    size = 1
+    connected_groups = fully_connected_groups(network, size)
+    while len(connected_groups) > 1:
+        connected_groups = fully_connected_bigger_groups(network, connected_groups)
+    
+    connected_group = connected_groups.pop()
+    print(connected_group)
+
+    password = ','.join(connected_group)
+    print(password)
+
+
+p2()
