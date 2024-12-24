@@ -99,8 +99,7 @@ def p2():
 
     network = build_network(connections)
 
-    size = 1
-    connected_groups = fully_connected_groups(network, size)
+    connected_groups = fully_connected_groups(network, 1)
     while len(connected_groups) > 1:
         connected_groups = fully_connected_bigger_groups(network, connected_groups)
     
