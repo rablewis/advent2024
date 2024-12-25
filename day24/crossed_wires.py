@@ -134,6 +134,159 @@ def xor_gate(values, connections, input1, input2):
     return value1 ^ value2
 
 
+def test_switches(values, connections, switched_outputs):
+    return False
+
+
+def check_z(connections, zwire, previous_xor, previous_big_or):
+    gate = connections[zwire]
+    operator = gate[2]
+    if operator != 'XOR':
+        print('not XOR')
+        return False, None, None
+    
+    input1 = gate[0]
+    input2 = gate[1]
+
+    bit_position = int(zwire[1:])
+    if bit_position == 0:
+        valid = is_xor(connections, zwire, bit_position)
+        return valid, None, None  
+
+    if input1 not in connections or input2 not in connections:
+        print('inputs not in connections')
+        return False, None, None
+    
+
+    if is_xor(connections, input1, bit_position):
+        if bit_position == 0:
+            previous_xor = input1
+            previous_big_or = None
+        elif bit_position == 1:
+            if is_and(connections, input2, bit_position - 1):
+                previous_xor = input1
+                previous_big_or = input2
+            else:
+                print('not the expected AND')
+                return False, None, None
+        elif is_big_or(connections, input2, bit_position, previous_xor, previous_big_or):
+            previous_xor = input1
+            previous_big_or = input2
+        else:
+            print('not the expected big OR')
+            return False, None, None
+    elif is_xor(connections, input2, bit_position):
+        if bit_position == 0:
+            previous_xor = input2
+            previous_big_or = None
+        elif bit_position == 1:
+            if is_and(connections, input1, bit_position - 1):
+                previous_xor = input2
+                previous_big_or = input1
+            else:
+                print('not the expected AND')
+                return False, None, None
+        elif is_big_or(connections, input1, bit_position, previous_xor, previous_big_or):
+            previous_xor = input2
+            previous_big_or = input1
+        else:
+            print('not the expected big OR')
+            return False, None, None
+    else:
+        print('expected XOR not found')
+        return False, None, None
+    
+    return True, previous_xor, previous_big_or
+    
+
+def is_xor(connections, wire, bit_position):
+    gate = connections[wire]
+    if gate[2] != 'XOR':
+        return False
+    
+    return are_xy_inputs(gate[0], gate[1], bit_position)
+
+
+def is_big_or(connections, wire, bit_position, previous_xor, previous_big_or):
+    if wire not in connections:
+        return False
+    
+    gate = connections[wire]
+    if gate[2] != 'OR':
+        return False
+    
+    input1 = gate[0]
+    input2 = gate[1]
+
+    bit = int(bit_position)
+    if is_and(connections, input1, bit - 1):
+        return is_big_and(connections, input2, previous_xor, previous_big_or)
+    elif is_and(connections, input2, bit - 1):
+        return is_big_and(connections, input1, previous_xor, previous_big_or)
+    else:
+        return False
+
+
+def is_and(connections, wire, bit_position):
+    if wire not in connections:
+        print('wire not in connections')
+        return False
+    
+    gate = connections[wire]
+    operator = gate[2]
+    if operator != 'AND':
+        print('operator is not "AND"')
+        return False
+    
+    return are_xy_inputs(gate[0], gate[1], bit_position)
+    
+
+def are_xy_inputs(input1, input2, bit_position):
+    if not is_int(input1[1:]) or int(input1[1:]) != bit_position:
+        return False
+    
+    if not is_int(input2[1:]) or int(input2[1:]) != bit_position:
+        return False
+    
+    if input1[0:1] == 'x':
+        return input2[0:1] == 'y'
+    elif input2[0:1] == 'x':
+        return input1[0:1] == 'y'
+    else:
+        return False
+
+
+def is_big_and(connections, wire, previous_xor, previous_big_or):
+    if wire not in connections:
+        return False
+    
+    gate = connections[wire]
+    operator = gate[2]
+    if operator != 'AND':
+        return False
+    
+    input1 = gate[0]
+    input2 = gate[1]
+
+    if input1 == previous_xor:
+        return input2 == previous_big_or
+    elif input2 == previous_xor:
+        return input1 == previous_big_or
+    else:
+        return False
+    
+
+
+def is_int(s):
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
+
+
+
+
 def p1():
     print('part 1')
 
@@ -160,5 +313,51 @@ def p1():
 def p2():
     print('part 2')
 
+    values, connections = load_data_file('data.txt')
 
-p1()
+    ## NOTE: I didn't actually write code to find the answer. I wrote code to find the places where 
+    # there are problems (to find the bits where the logic gates aren't set up to do addition).
+    # Then I analysed "data.txt" to figure out what to switch.
+    
+    # Here I make the switches I found, and the code carries on to confirm that there are no more problems.
+
+    # switch z12 with kwb
+    temp = connections['z12']
+    connections['z12'] = connections['kwb']
+    connections['kwb'] = temp
+
+    # switch z16 and qkf
+    temp = connections['z16']
+    connections['z16'] = connections['qkf']
+    connections['qkf'] = temp
+
+    # switch z24 and tgr
+    temp = connections['z24']
+    connections['z24'] = connections['tgr']
+    connections['tgr'] = temp
+
+    # switch cph and jqn
+    temp = connections['cph']
+    connections['cph'] = connections['jqn']
+    connections['jqn'] = temp
+
+
+    outputs = []
+    z_outputs = []
+    for output in connections:
+        if output.startswith('z') and is_int(output[1:]):
+            z_outputs.append(output)
+        outputs.append(output)
+    z_outputs.sort()
+
+    previous_xor = None
+    previous_big_or = None
+    for wire in z_outputs:
+        ok, previous_xor, previous_big_or = check_z(connections, wire, previous_xor, previous_big_or)
+        print(wire, ': ', 'ok' if ok else 'NOT OK')
+    
+    print('cph,jqn,kwb,qkf,tgr,z12,z16,z24')
+
+
+
+p2()
